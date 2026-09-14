@@ -1,6 +1,8 @@
-## Fern Lawson's vCard Portfolio
+# Fern Lawson's vCard Portfolio
 
-This portfolio was created through a fork of **[vCard Personal Portfolio][https://github.com/codewithsadee/vcard-personal-portfolio]** by codewithsadee. This portfolio serves as part of an assignment for SWE 380.
+This portfolio was created through a fork of https://github.com/codewithsadee/vcard-personal-portfolio . This portfolio serves as part of an assignment for SWE 380.
+
+##
 
 ## License
 
