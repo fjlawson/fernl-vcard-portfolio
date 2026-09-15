@@ -1116,6 +1116,28 @@ main {
 }
 
 
+/* AI-generated changes
+*/
+
+.skill-groups {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.skill-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 0.75rem;
+}
+
+.skill-tag {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--jet);
+  border-radius: 0.5rem;
+}
+
+
 
 
 
