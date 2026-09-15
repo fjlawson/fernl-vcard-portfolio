@@ -576,3 +576,709 @@ Additional checks:
 Testimonials, Clients, and Blog should be removed completely. Portfolio should be transformed into Projects rather than retained as a separate duplicate section.
 
 These are suggestions only; no repository files have been modified.
+
+## 3rd Prompt
+
+**I then replied with: "Provide suggestions of the student's information to fit within this template", and pasted the code from index.html of the original template.**
+
+**The AI responded with:**
+
+Below are template-specific suggestions only. No file has been modified.
+
+### Recommended final structure
+
+Keep the template’s tabbed layout, but reduce it to three distinct pages:
+
+1. **About**
+2. **Education & Skills**
+3. **Projects**
+
+Remove **Blog** and **Contact** because no verified content was provided for them. Remove Testimonials, Clients, and the template’s unsupported service claims from About.
+
+---
+
+### 1. Document head
+
+#### Page title
+
+Replace:
+
+```html
+<title>vCard - Personal Portfolio</title>
+```
+
+With:
+
+```html
+<title>Fern Lawson | Computer Science Student</title>
+```
+
+#### Favicon
+
+`./assets/images/logo.ico` may be a template placeholder. Either:
+
+- Replace it with an approved, non-placeholder favicon, or
+- Remove the favicon `<link>` until one is available.
+
+Do not leave the template logo in the finished site.
+
+#### External resources
+
+The Google Fonts and Ionicons resources make third-party requests, although they are not analytics. They can remain if external font/icon loading is acceptable, but locally hosted assets would offer more privacy and reliability.
+
+---
+
+### 2. Sidebar
+
+#### Remove the avatar
+
+The current image and alternative text are placeholders:
+
+```html
+<figure class="avatar-box">
+  <img src="./assets/images/my-avatar.png" alt="Richard hanrick" width="80">
+</figure>
+```
+
+Because no approved portrait was supplied, remove the entire `avatar-box`. Do not substitute a stock image, initials graphic, or invented portrait.
+
+Check `style.css` afterward because `.sidebar-info` and `.info-content` may assume the avatar exists.
+
+#### Replace the identity
+
+Replace:
+
+```html
+<h1 class="name" title="Richard hanrick">Richard hanrick</h1>
+<p class="title">Web developer</p>
+```
+
+With:
+
+```html
+<h1 class="name" title="Fern Lawson">Fern Lawson</h1>
+<p class="title">Computer Science Student</p>
+<p class="institution">University of Michigan-Flint</p>
+```
+
+This ensures the landing view immediately displays both Fern’s full name and student status at the institution.
+
+If the design cannot comfortably accommodate the extra line, a single verified title would also work:
+
+```html
+<p class="title">Computer Science Student at the University of Michigan-Flint</p>
+```
+
+#### Remove contact disclosure controls
+
+The sidebar contains unsupported personal information and placeholder social links. Remove:
+
+- The `Show Contacts` button
+- The complete `.sidebar-info_more` block
+- Email
+- Phone
+- Birthday
+- Location
+- Facebook
+- Twitter
+- Instagram
+
+No public contact details or profile links were supplied. Do not infer Fern’s email address or location.
+
+Once removed, the `data-sidebar` and `data-sidebar-btn` hooks may no longer be needed. The related sidebar-toggle code in `script.js` should also be removed or safely guarded against missing elements.
+
+---
+
+### 3. Navigation
+
+Replace the five existing tabs:
+
+- About
+- Resume
+- Portfolio
+- Blog
+- Contact
+
+With three tabs:
+
+```html
+<ul class="navbar-list">
+  <li class="navbar-item">
+    <button class="navbar-link active" data-nav-link>About</button>
+  </li>
+
+  <li class="navbar-item">
+    <button class="navbar-link" data-nav-link>Education &amp; Skills</button>
+  </li>
+
+  <li class="navbar-item">
+    <button class="navbar-link" data-nav-link>Projects</button>
+  </li>
+</ul>
+```
+
+The template JavaScript appears to match normalized button text with each article’s `data-page` value. Therefore, the associated articles should use matching values:
+
+```html
+<article class="education & skills" data-page="education & skills">
+```
+
+However, using ampersands and spaces as classes is awkward. A cleaner approach is:
+
+- Visible label: `Education & Skills`
+- `data-page`: `education-skills`
+- Update the navigation script to use explicit matching attributes, such as `data-nav-target="education-skills"`
+
+If you want to avoid changing the script’s matching logic, use the visible tab label **Resume**, retain `data-page="resume"`, and change only the article heading to **Education & Skills**. This is the smallest correction, but the visible “Resume” label is less precise.
+
+A practical minimal-change structure is therefore:
+
+- Navigation label: About → `data-page="about"`
+- Navigation label: Resume → `data-page="resume"`
+- Navigation label: Projects → `data-page="projects"`
+
+Changing `Portfolio` to `Projects` is safe only if both its button text and article `data-page` value are changed consistently.
+
+---
+
+### 4. About article
+
+#### Replace the biography
+
+Replace both template paragraphs with the supplied statement:
+
+```html
+<section class="about-text">
+  <p>
+    I am a Computer Science student currently looking for opportunities in
+    software development, UI/UX design, and IT. I have four years of experience
+    programming in Java and two years of experience programming in C++.
+  </p>
+</section>
+```
+
+Do not repeat the education details or complete skills list here; they belong in the Education & Skills article.
+
+#### Remove “What I’m Doing”
+
+Remove the entire `.service` section. Its claims about professional web design, web development, mobile applications, and photography are not supported by the supplied information.
+
+Although Fern is interested in software development and UI/UX design, an interest should not be presented as a professional service.
+
+If the visual design needs cards in the About view, use verified “Areas of Interest” cards instead:
+
+- Software Development
+- UI/UX Design
+- Information Technology
+
+However, those interests already appear in the About paragraph, so adding cards would duplicate information. Removing the section is more consistent with the acceptance criteria.
+
+#### Remove Testimonials
+
+Remove:
+
+```html
+<section class="testimonials">
+  ...
+</section>
+```
+
+Also remove the full testimonial modal:
+
+```html
+<div class="modal-container" data-modal-container>
+  ...
+</div>
+```
+
+This eliminates all invented names, quotations, dates, avatars, and lorem ipsum. The matching testimonial/modal logic in `script.js` should then be removed or safely guarded.
+
+#### Remove Clients
+
+Remove:
+
+```html
+<section class="clients">
+  ...
+</section>
+```
+
+The logos and links are template placeholders, and no clients were provided.
+
+---
+
+### 5. Resume article: convert it to Education & Skills
+
+Keep the current `resume` article structure if minimizing JavaScript changes is important, but change its visible heading:
+
+```html
+<header>
+  <h2 class="h2 article-title">Education &amp; Skills</h2>
+</header>
+```
+
+#### Education timeline
+
+Keep one timeline item only:
+
+```html
+<section class="timeline">
+  <div class="title-wrapper">
+    <div class="icon-box">
+      <ion-icon name="book-outline"></ion-icon>
+    </div>
+
+    <h3 class="h3">Education</h3>
+  </div>
+
+  <ol class="timeline-list">
+    <li class="timeline-item">
+      <h4 class="h4 timeline-item-title">
+        University of Michigan-Flint
+      </h4>
+
+      <span>Expected graduation: December 2026</span>
+
+      <p class="timeline-text">
+        Bachelor of Science in Computer Science
+      </p>
+    </li>
+  </ol>
+</section>
+```
+
+“Expected graduation” is preferable because December 2026 is a future date.
+
+Do not add attendance dates, grade-point average, coursework, honors, or campus activities unless Fern supplies them.
+
+#### Remove Experience
+
+Remove the complete Experience timeline. No work history was supplied, and the template entries are fictional.
+
+Do not replace it with project experience, because the projects belong in their own section and should not be copied.
+
+#### Replace percentage skill bars
+
+The current percentage bars imply unsupported proficiency measurements. Remove all percentages and progress bars.
+
+Use a categorized skills list inside the existing `content-card` style. For example:
+
+```html
+<section class="skill">
+  <h3 class="h3 skills-title">Skills</h3>
+
+  <div class="skills-groups content-card">
+    <section class="skill-group">
+      <h4 class="h4">Programming Languages</h4>
+      <ul class="skills-list">
+        <li>C++</li>
+        <li>HTML</li>
+        <li>Java</li>
+        <li>JavaScript</li>
+        <li>Python</li>
+        <li>Visual Basic</li>
+        <li>Visual Basic .NET (VB.NET)</li>
+      </ul>
+    </section>
+
+    <section class="skill-group">
+      <h4 class="h4">Computer Science Concepts</h4>
+      <ul class="skills-list">
+        <li>Algorithms</li>
+        <li>Algorithm Analysis</li>
+        <li>Algorithm Optimization</li>
+        <li>Computer Science</li>
+        <li>Data Structures</li>
+        <li>Dynamic Programming</li>
+      </ul>
+    </section>
+
+    <section class="skill-group">
+      <h4 class="h4">Databases</h4>
+      <ul class="skills-list">
+        <li>Database Design</li>
+        <li>Database Management Systems (DBMS)</li>
+        <li>Databases</li>
+      </ul>
+    </section>
+
+    <section class="skill-group">
+      <h4 class="h4">Tools and Platforms</h4>
+      <ul class="skills-list">
+        <li>Arduino</li>
+        <li>Arduino IDE</li>
+        <li>Code::Blocks</li>
+        <li>Microsoft Office</li>
+        <li>Visual Studio</li>
+      </ul>
+    </section>
+
+    <section class="skill-group">
+      <h4 class="h4">General Technology</h4>
+      <ul class="skills-list">
+        <li>Computer Literacy</li>
+        <li>Tech-savvy</li>
+      </ul>
+    </section>
+  </div>
+</section>
+```
+
+Using nested `<section>` elements is acceptable here because each has a heading. Alternatively, use `<div class="skill-group">` to keep the document outline simpler.
+
+#### Styling consequence
+
+The existing `.skills-list`, `.skills-item`, and progress-bar CSS expects a very different structure. Either:
+
+- Add narrowly scoped styles such as `.skills-groups .skills-list`, or
+- Rename the new list class to avoid inheriting the progress-bar layout.
+
+For example:
+
+```css
+.skill-groups {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.skill-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 0.75rem;
+}
+
+.skill-tag {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--jet);
+  border-radius: 0.5rem;
+}
+```
+
+Using `.skill-tag-list` instead of `.skills-list` avoids conflicts with the template’s existing selectors.
+
+---
+
+### 6. Portfolio article: convert it to Projects
+
+#### Rename the article consistently
+
+Change:
+
+```html
+<article class="portfolio" data-page="portfolio">
+```
+
+To:
+
+```html
+<article class="projects-page" data-page="projects">
+```
+
+Then make the navigation button say `Projects`.
+
+Be aware that the existing CSS may rely on the `.portfolio` class. To avoid breaking styles, preserve that class while adding a clearer class:
+
+```html
+<article class="portfolio projects-page" data-page="projects">
+```
+
+Change the visible heading:
+
+```html
+<h2 class="h2 article-title">Projects</h2>
+```
+
+#### Remove filtering controls
+
+With only two in-progress projects and no supported categorical classifications, remove:
+
+- `.filter-list`
+- `.filter-select-box`
+- All category filtering buttons
+- `data-filter-btn`
+- `data-filter-item`
+- `data-category`
+- Related filtering JavaScript
+
+Do not label AIGentFlow as “web development” merely because it is a website; the user did not specify project technologies or skill categories.
+
+#### Replace image cards with text cards
+
+Neither project has an approved URL, so do not wrap the cards in `<a href="#">`.
+
+Use the existing `project-list` and `project-item` classes where possible, but replace the internal image structure:
+
+```html
+<section class="projects" aria-labelledby="projects-status">
+  <p id="projects-status" class="projects-intro">
+    Notable projects in progress
+  </p>
+
+  <ul class="project-list">
+    <li class="project-item active">
+      <article class="content-card project-text-card">
+        <h3 class="project-title">AIGentFlow</h3>
+
+        <p class="project-category">
+          Technology Capstone (CIT 485) · In progress
+        </p>
+
+        <p class="project-description">
+          A website that allows users to configure agents to simulate a team
+          environment. Users can watch the agents work together and provide
+          tasks through a chat window.
+        </p>
+      </article>
+    </li>
+
+    <li class="project-item active">
+      <article class="content-card project-text-card">
+        <h3 class="project-title">Fly Simply</h3>
+
+        <p class="project-category">
+          Human-Computer Interaction (CSC 310) · In progress
+        </p>
+
+        <p class="project-description">
+          An application that helps users navigate airports. It displays travel
+          times to gates, security checkpoints, and other establishments, as
+          well as wait times at areas such as security checkpoints.
+        </p>
+      </article>
+    </li>
+  </ul>
+</section>
+```
+
+This structure:
+
+- Removes all images
+- Avoids dead links
+- Keeps each project in a distinct text card
+- Uses only supplied information
+- Separates project context from description
+
+#### Required CSS adjustment
+
+The template’s `.project-list` and `.project-item` likely assume thumbnail cards. Add or adjust styles such as:
+
+```css
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.project-item {
+  display: block;
+  width: 100%;
+}
+
+.project-text-card {
+  height: 100%;
+}
+
+.project-description {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .project-list {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+Check the actual stylesheet’s media-query ordering and variable names before inserting these rules.
+
+---
+
+### 7. Remove the Blog article
+
+Remove the entire:
+
+```html
+<article class="blog" data-page="blog">
+  ...
+</article>
+```
+
+Also remove the Blog navigation button.
+
+All current posts, images, dates, categories, descriptions, and links are placeholders. Keeping the section without images would still leave invented content.
+
+---
+
+### 8. Remove the Contact article
+
+Remove the entire:
+
+```html
+<article class="contact" data-page="contact">
+  ...
+</article>
+```
+
+Also remove its navigation button.
+
+Specific reasons:
+
+- The Sacramento map is incorrect and exposes an unrelated location.
+- No approved email or other contact destination was supplied.
+- `action="#"` does not send form data anywhere.
+- A functioning form would require an external service or backend, which is outside the project constraints.
+- A nonfunctioning form would mislead reviewers.
+
+If Fern later supplies an approved public email or professional profile, a simple static link can be added without a form.
+
+---
+
+### 9. JavaScript cleanup
+
+After removing template sections, inspect `./assets/js/script.js` for code associated with:
+
+- Sidebar contact disclosure
+- Testimonials
+- Testimonial modal
+- Portfolio filtering
+- Portfolio mobile select
+- Contact-form validation
+
+Remove those blocks or make them tolerate missing elements. Otherwise calls such as `element.addEventListener(...)` on `null` can stop all remaining navigation from working.
+
+Keep only the page-navigation logic needed for About, Resume/Education & Skills, and Projects.
+
+#### Important matching issue
+
+This template commonly uses code conceptually similar to:
+
+```js
+if (this.innerHTML.toLowerCase() === pages[j].dataset.page)
+```
+
+Therefore:
+
+- `Projects` must match `data-page="projects"`.
+- If the button becomes `Education & Skills`, the article’s `data-page` and JavaScript matching logic must account for that exact normalized text.
+- Using explicit `data-nav-target` values is more robust than matching visible text.
+
+Also replace `innerHTML` comparisons with `textContent` or explicit data attributes where practical.
+
+---
+
+### 10. Accessibility corrections tailored to this markup
+
+#### Icon-only controls
+
+If any icon-only buttons remain, give them accessible names:
+
+```html
+<button class="modal-close-btn" aria-label="Close testimonial">
+```
+
+The testimonial modal should be removed here, but this principle applies to any remaining icon buttons.
+
+#### Navigation state
+
+The active tab should expose state to assistive technology:
+
+```html
+<button
+  class="navbar-link active"
+  data-nav-link
+  aria-current="page">
+  About
+</button>
+```
+
+When changing pages, JavaScript should move `aria-current="page"` to the active button.
+
+#### Hidden articles
+
+The template probably hides inactive articles with CSS. Ensure hidden pages are truly removed from keyboard and accessibility navigation, preferably using the HTML `hidden` attribute rather than only opacity or visibility.
+
+#### Mobile navbar
+
+Confirm that:
+
+- All tab labels fit or scroll without clipping.
+- Keyboard focus remains visible.
+- Horizontal scrolling is understandable and does not hide content.
+- Controls have adequate touch targets.
+
+#### Headings
+
+Recommended heading hierarchy:
+
+- Sidebar identity: `<h1>Fern Lawson</h1>`
+- Article titles: `<h2>`
+- Section titles: `<h3>`
+- Skill-group and project titles: `<h4>` or `<h3>` depending on nesting
+
+Within the Projects article, each project title can be `<h3>` because it is directly under the article’s `<h2>`.
+
+---
+
+### 11. Placeholder and asset cleanup
+
+After revising `index.html`, verify that none of these remain visible or referenced:
+
+- `Richard hanrick`
+- Placeholder avatar
+- Example email and phone
+- Birthday and Sacramento location
+- Placeholder social links
+- Service icons and unsupported service claims
+- Testimonial avatars and quote icon
+- Client logos
+- Project images
+- Blog images
+- Sacramento Google Maps embed
+- Empty `href="#"` links
+
+Unused assets may remain in the repository without affecting the page, but removing them makes the project cleaner. Before deletion, verify that CSS, documentation, or license materials do not still require or reference them.
+
+Preserve the repository’s license and any attribution required by the original template.
+
+### Suggested final content map
+
+#### Sidebar
+
+- Fern Lawson
+- Computer Science Student
+- University of Michigan-Flint
+
+#### About
+
+- Supplied About Me paragraph only
+
+#### Education & Skills
+
+- University of Michigan-Flint
+- Bachelor of Science in Computer Science
+- Expected graduation: December 2026
+- All supplied skills, grouped without percentages
+
+#### Projects
+
+- AIGentFlow
+- Fly Simply
+- Both explicitly marked in progress
+
+#### Removed
+
+- Avatar
+- Contact details and social links
+- Services
+- Testimonials and modal
+- Clients
+- Experience
+- Portfolio filters and images
+- Blog
+- Contact map and form
+
+This yields a complete three-section portfolio without invented claims, duplicate information, placeholder content, unnecessary personal data, or nonfunctional links.
