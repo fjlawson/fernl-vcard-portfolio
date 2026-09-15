@@ -33,11 +33,11 @@ First provide:
 
 **The AI replied with:**
 
-## 1. File-by-file implementation plan
+### 1. File-by-file implementation plan
 
 Because the repository contents have not been provided, this plan uses common template filenames. I will map it to the actual structure after reviewing the files.
 
-### `index.html` or equivalent landing-page file
+#### `index.html` or equivalent landing-page file
 
 - Audit all existing sections, navigation items, links, images, and template content.
 - Replace placeholder identity content with:
@@ -62,7 +62,7 @@ Because the repository contents have not been provided, this plan uses common te
 - Add useful alternative text for informative images and empty `alt=""` for purely decorative images.
 - Preserve any required license or attribution text.
 
-### CSS files, such as `styles.css`
+#### CSS files, such as `styles.css`
 
 - Preserve the template’s visual direction unless changes are necessary for readability or correctness.
 - Make the layout responsive without relying on horizontal scrolling.
@@ -78,7 +78,7 @@ Because the repository contents have not been provided, this plan uses common te
 - Respect reduced-motion preferences if the template includes animation.
 - Remove unused styles only when their removal is clearly safe.
 
-### JavaScript files, such as `script.js`
+#### JavaScript files, such as `script.js`
 
 - Audit scripts for template-only behavior, broken selectors, console errors, analytics, or external collection.
 - Make only small front-end corrections, such as:
@@ -91,7 +91,7 @@ Because the repository contents have not been provided, this plan uses common te
 - Avoid adding a backend, login, tracking, or unnecessary dependencies.
 - Avoid JavaScript for behavior that native HTML and CSS can handle reliably.
 
-### Images and other assets
+#### Images and other assets
 
 - Inventory every image, icon, document, and downloadable file.
 - Remove unused placeholder assets from the rendered site.
@@ -101,7 +101,7 @@ Because the repository contents have not been provided, this plan uses common te
 - Confirm that local asset paths and filename capitalization work on static hosting.
 - Preserve asset-level licenses or attribution where required.
 
-### Metadata and supporting files
+#### Metadata and supporting files
 
 Depending on the repository, this may include `README.md`, a manifest, favicon files, or license documents.
 
@@ -114,9 +114,9 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 
 ---
 
-## 2. Assumptions and risks
+### 2. Assumptions and risks
 
-### Assumptions
+#### Assumptions
 
 - The site is a small static project built with HTML, CSS, and JavaScript.
 - The existing template license permits content and styling changes.
@@ -124,7 +124,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 - Sections without verified content may be removed rather than filled with generic text.
 - Public contact information will be included only if explicitly approved.
 
-### Risks
+#### Risks
 
 - **Unknown file structure:** The exact plan may change after the repository is inspected.
 - **Placeholder ambiguity:** Some polished template copy or stock imagery may not be obviously labeled as placeholder content.
@@ -138,9 +138,9 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 
 ---
 
-## 3. Proposed test checklist
+### 3. Proposed test checklist
 
-### Content and acceptance criteria
+#### Content and acceptance criteria
 
 - [ ] Landing page visibly displays the student’s full name.
 - [ ] Landing page states that the student is a student at the named institution.
@@ -154,7 +154,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 - [ ] No unfinished labels such as “coming soon,” “your image,” or “project title” remain.
 - [ ] Required license and attribution are preserved.
 
-### Functionality
+#### Functionality
 
 - [ ] All internal navigation links reach the correct section.
 - [ ] All approved external links resolve to their intended destinations.
@@ -165,7 +165,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 - [ ] No backend, authentication, analytics, or external data collection is introduced.
 - [ ] Any existing third-party network requests are reviewed and documented or removed where appropriate.
 
-### Responsive design
+#### Responsive design
 
 - [ ] Test at approximately 320, 375, 768, 1024, and 1440 CSS pixels wide.
 - [ ] Test portrait and landscape orientations.
@@ -175,7 +175,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 - [ ] Long words, URLs, and project titles wrap safely.
 - [ ] The page remains usable at 200% browser zoom.
 
-### Accessibility
+#### Accessibility
 
 - [ ] The page has a descriptive title and one clear top-level heading.
 - [ ] Heading levels follow a logical order.
@@ -192,7 +192,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 - [ ] Motion respects `prefers-reduced-motion`.
 - [ ] Automated accessibility checks are run, followed by manual keyboard testing.
 
-### Quality, privacy, and deployment
+#### Quality, privacy, and deployment
 
 - [ ] HTML and CSS validation reveal no material errors.
 - [ ] Asset paths work under the target static host.
@@ -205,7 +205,7 @@ Depending on the repository, this may include `README.md`, a manifest, favicon f
 
 ---
 
-## 4. Questions that must be answered before implementation
+### 4. Questions that must be answered before implementation
 
 1. **Can you provide the project files or repository contents**, including the license and all assets?
 2. **What exact full name, student-status wording, and institution name should appear on the landing page?**
@@ -273,9 +273,9 @@ Again, do not modify index.html; instead, give suggestions.
 
 I will not modify `index.html`. I also cannot inspect the live GitHub repository because a Web Search or GitHub connector is not available in this conversation. The suggestions below are therefore based on your requirements and supplied content rather than a direct inspection of the current markup.
 
-## Suggested changes to `index.html`
+### Suggested changes to `index.html`
 
-### 1. Landing/About section
+#### 1. Landing/About section
 
 Replace the template identity and biography with:
 
@@ -299,7 +299,7 @@ Recommendations:
 - Do not repeat the biography in the Education, résumé, or footer sections.
 - Remove template occupation labels that are not supported by the supplied information.
 
-### 2. Education and Skills section
+#### 2. Education and Skills section
 
 Keep education and skills within one top-level section, but place them in separate subsections or cards:
 
@@ -377,7 +377,7 @@ Preserve all supplied skills, but consider whether these overlapping entries are
 
 They are not exact duplicates, so they can remain. Grouping them prevents the section from looking repetitive.
 
-### 3. Projects section
+#### 3. Projects section
 
 Rename the template’s Portfolio section to **Projects** and replace image-based portfolio cards with text cards.
 
@@ -420,7 +420,7 @@ Recommendations:
 - Mark both projects clearly as **in progress**.
 - If the template depends on portfolio filter buttons, remove those buttons and their associated JavaScript unless they still serve a real purpose.
 
-### 4. Testimonials section
+#### 4. Testimonials section
 
 You requested removal of its images, but the supplied information contains no testimonial content. The cleanest solution is to remove the entire Testimonials section, not merely its images.
 
@@ -434,7 +434,7 @@ Also remove:
 
 This prevents placeholder quotations, names, and job titles from remaining and avoids creating a content-poor section.
 
-### 5. Clients section
+#### 5. Clients section
 
 Remove the entire Clients section because no clients were supplied. Removing only the logos would leave an empty or misleading section.
 
@@ -446,7 +446,7 @@ Also remove:
 
 Do not imply that employers, organizations, or courses are clients.
 
-### 6. Blog section
+#### 6. Blog section
 
 Remove the entire Blog section because no blog posts or approved links were supplied.
 
@@ -459,7 +459,7 @@ Also remove:
 
 An empty text-only Blog section would not satisfy the requirement that every section have distinct, completed information.
 
-### 7. Navigation
+#### 7. Navigation
 
 The final navigation should point only to sections that remain, likely:
 
@@ -486,7 +486,7 @@ Example:
 </nav>
 ```
 
-### 8. Contact and social links
+#### 8. Contact and social links
 
 No public contact methods or profile links were supplied. Therefore:
 
@@ -495,7 +495,7 @@ No public contact methods or profile links were supplied. Therefore:
 - Remove the Contact section if it cannot be completed with approved information.
 - Do not expose Fern’s U-M uniqname or infer an email address from it.
 
-## Suggested styling changes
+### Suggested styling changes
 
 Use existing template classes where practical, but make project cards work without images:
 
@@ -548,7 +548,7 @@ Additional checks:
 - Check foreground/background combinations for Web Content Accessibility Guidelines (WCAG) 2.1 Level AA contrast.
 - Avoid fixed card heights, which can clip content on mobile or at 200% zoom.
 
-## GitHub Pages considerations
+### GitHub Pages considerations
 
 - Use relative asset paths such as `./assets/css/style.css`, not root-relative paths such as `/assets/css/style.css`, unless the deployment configuration specifically supports them.
 - Match filename capitalization exactly; GitHub Pages is case-sensitive.
@@ -558,7 +558,7 @@ Additional checks:
 - Check `og:image`, favicon, and manifest references for placeholder images.
 - If deleted sections are targets of URL fragments, remove or update those links.
 
-## Proposed final section structure
+### Proposed final section structure
 
 1. **About**
    - Fern Lawson
