@@ -1618,3 +1618,354 @@ There are two independent sets of template behavior:
 - **Portfolio filtering:** controlled by `data-filter-btn`, `data-select`, `data-select-item`, `data-filter-item`, and `data-category`
 
 To preserve navigation, leave the first set untouched. You can simplify the second set independently, but its JavaScript must be removed or guarded if its controls are removed.
+
+## Prompt 5
+
+**After I had gotten the navigation working again, I had issues when displaying the projects on the Portfolio section. So, I asked the AI for clarification, sending this:**
+
+I've implemented my projects but they are not showing up in the portfolio.
+
+**I also included my HTML and CSS with the prompt. The AI responded with this:**
+
+Your Portfolio navigation appears correctly matched:
+
+```html
+<button class="navbar-link" data-nav-link>Portfolio</button>
+```
+
+```html
+<article class="portfolio" data-page="portfolio">
+```
+
+The projects are hidden because of a broader CSS selector conflict.
+
+### Root cause
+
+Your global rule hides **every `<article>` element**:
+
+```css
+article { display: none; }
+
+article.active {
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+```
+
+You introduced nested `<article class="project-card">` elements inside the active Portfolio page:
+
+```html
+<article class="project-card">
+```
+
+Those nested project-card articles do not have the `active` class, so the global `article { display: none; }` rule hides them.
+
+### Recommended fix
+
+Restrict the show/hide rule to the top-level page articles inside `.main-content`.
+
+Replace:
+
+```css
+article { display: none; }
+
+article.active {
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+```
+
+With:
+
+```css
+.main-content > article {
+  display: none;
+}
+
+.main-content > article.active {
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+```
+
+This is the cleanest fix. It allows semantic nested `<article>` project cards while continuing to hide inactive top-level pages.
+
+### Also scope the shared card styling
+
+This earlier selector applies the full page background, border, padding, shadow, and `z-index` to every project card:
+
+```css
+.sidebar,
+article {
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: var(--shadow-1);
+  z-index: 1;
+}
+```
+
+Change it to:
+
+```css
+.sidebar,
+.main-content > article {
+  background: var(--eerie-black-2);
+  border: 1px solid var(--jet);
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: var(--shadow-1);
+  z-index: 1;
+}
+```
+
+Then explicitly style project cards:
+
+```css
+.project-card {
+  position: relative;
+  display: block;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-gradient-jet);
+  border: 1px solid var(--jet);
+  border-radius: 16px;
+  box-shadow: var(--shadow-2);
+  padding-bottom: 15px;
+}
+```
+
+### Update the responsive selectors too
+
+Your stylesheet contains several rules that target every `article`. Change each one to target only top-level page articles.
+
+#### At 580 pixels
+
+Replace:
+
+```css
+.sidebar, article {
+  width: 520px;
+  margin-inline: auto;
+  padding: 30px;
+}
+```
+
+With:
+
+```css
+.sidebar,
+.main-content > article {
+  width: 520px;
+  margin-inline: auto;
+  padding: 30px;
+}
+```
+
+#### At 768 pixels
+
+Replace:
+
+```css
+.sidebar, article { width: 700px; }
+```
+
+With:
+
+```css
+.sidebar,
+.main-content > article { width: 700px; }
+```
+
+#### At 1024 pixels
+
+Replace:
+
+```css
+.sidebar, article {
+  width: 950px;
+  box-shadow: var(--shadow-5);
+}
+```
+
+With:
+
+```css
+.sidebar,
+.main-content > article {
+  width: 950px;
+  box-shadow: var(--shadow-5);
+}
+```
+
+#### At 1250 pixels
+
+Replace:
+
+```css
+.sidebar, article { width: auto; }
+
+article { min-height: 100%; }
+```
+
+With:
+
+```css
+.sidebar,
+.main-content > article {
+  width: auto;
+}
+
+.main-content > article {
+  min-height: 100%;
+}
+```
+
+This prevents page-layout dimensions from being applied to the nested project cards.
+
+### Fast alternative
+
+If you want the smallest HTML-only correction, replace each nested project `<article>` with a `<div>`:
+
+```html
+<li class="project-item active">
+  <div class="project-card">
+    ...
+  </div>
+</li>
+```
+
+That avoids the global `article` rule. It should make the cards visible immediately.
+
+However, scoping the CSS to `.main-content > article` is more robust because it prevents this issue with any nested semantic article added later.
+
+### Image sizing issue
+
+This responsive rule overrides the fixed image height at widths above 450 pixels:
+
+```css
+.project-img,
+.blog-banner-box { height: auto; }
+```
+
+Because `.project-img` is a `<figure>` containing an image whose height is `100%`, `height: auto` can produce inconsistent dimensions.
+
+Your more specific rule gives the image an aspect ratio, but not the figure itself:
+
+```css
+.project-card .project-img img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+```
+
+A more reliable approach is:
+
+```css
+.project-card .project-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 15px;
+}
+
+.project-card .project-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+```
+
+### Grid adjustment
+
+At desktop width, this rule creates three columns even though there are only two projects:
+
+```css
+.project-list { grid-template-columns: repeat(3, 1fr); }
+```
+
+Change it to:
+
+```css
+.project-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+```
+
+Your existing mobile rule keeps one column on smaller screens.
+
+### Verify the image paths
+
+After fixing the hidden nested articles, if text appears but an image does not, confirm these files exist with exact capitalization:
+
+```text
+assets/images/project-1.png
+assets/images/project-2.png
+```
+
+GitHub Pages uses case-sensitive paths. For example, `Project-1.png` and `project-1.png` are different filenames.
+
+### Separate issues noticed
+
+These do not cause the Portfolio cards to disappear, but they should be corrected:
+
+#### Birthday machine-readable date is inconsistent
+
+Your displayed birthday says March 2, 2004, while `datetime` says June 23, 1982:
+
+```html
+<time datetime="1982-06-23">March 2nd, 2004</time>
+```
+
+For privacy, I recommend removing the birthday entirely from a public internship portfolio. If intentionally retained, the machine-readable date should match the displayed date.
+
+#### Remove remaining template sections
+
+The Blog and Contact articles remain in the HTML even though their navigation buttons were removed. They contain:
+
+- Placeholder blog posts
+- Dummy `#` links
+- A Sacramento map
+- A nonfunctional contact form
+
+Remove those two articles to satisfy the no-placeholder requirement and avoid publishing unrelated information.
+
+#### Skills CSS mismatch
+
+Your HTML uses:
+
+```html
+<ul class="skills-list">
+```
+
+but the custom CSS you added targets:
+
+```css
+.skill-tag-list
+.skill-tag
+```
+
+Either update the HTML to those classes or add scoped list styling. Avoid reusing the original `.skills-list` class because this rule adds substantial padding to every group:
+
+```css
+.skills-list { padding: 20px; }
+```
+
+### Minimal changes needed now
+
+At minimum, make this change:
+
+```css
+/* Before */
+article { display: none; }
+article.active { display: block; }
+
+/* After */
+.main-content > article { display: none; }
+.main-content > article.active { display: block; }
+```
+
+Then scope every other broad `article` selector to `.main-content > article`. Your project cards should become visible without changing the navigation JavaScript.
+
