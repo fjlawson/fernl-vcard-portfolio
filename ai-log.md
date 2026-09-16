@@ -1282,3 +1282,339 @@ Preserve the repository’s license and any attribution required by the original
 - Contact map and form
 
 This yields a complete three-section portfolio without invented claims, duplicate information, placeholder content, unnecessary personal data, or nonfunctional links.
+
+## 4th Prompt
+
+**While implementing the AI's changes, I began having trouble editing the last section of the page. The changes to index.html broke the website's navigation. I also wanted to rename the section to 'Portfolio' rather than 'Projects' to avoid conflicts within the existing code. So, I asked:**
+
+I'm editing the Projects section, but your suggested changes break the website's navigation. I instead want to rename the section to 'Portfolio'. I also want to display images of the student's projects. Show me suggestions on personalizing the 'Portfolio' section of the website template with Fern's data.
+
+**The AI responded with this:**
+
+### Suggested Portfolio personalization
+
+To preserve the template’s existing navigation, keep these values unchanged:
+
+```html
+<article class="portfolio" data-page="portfolio">
+```
+
+And keep the navigation button as:
+
+```html
+<button class="navbar-link" data-nav-link>Portfolio</button>
+```
+
+The visible button text must match `data-page="portfolio"` because the template’s JavaScript likely uses the button label to select the corresponding article.
+
+### Recommended Portfolio markup
+
+Replace only the contents of the existing `<section class="projects">` with the following structure:
+
+```html
+<section class="projects">
+
+  <p class="portfolio-intro">
+    Notable projects currently in progress.
+  </p>
+
+  <ul class="project-list">
+
+    <li class="project-item active">
+      <article class="project-card">
+
+        <figure class="project-img">
+          <img
+            src="./assets/images/aigentflow.png"
+            alt="Screenshot of the AIGentFlow project interface"
+            loading="lazy">
+        </figure>
+
+        <div class="project-content">
+          <h3 class="project-title">AIGentFlow</h3>
+
+          <p class="project-category">
+            Technology Capstone (CIT 485) · In progress
+          </p>
+
+          <p class="project-description">
+            A website that allows users to configure agents to simulate a team
+            environment. Users can watch the agents work together and provide
+            tasks through a chat window.
+          </p>
+        </div>
+
+      </article>
+    </li>
+
+    <li class="project-item active">
+      <article class="project-card">
+
+        <figure class="project-img">
+          <img
+            src="./assets/images/fly-simply.png"
+            alt="Screenshot of the Fly Simply airport navigation interface"
+            loading="lazy">
+        </figure>
+
+        <div class="project-content">
+          <h3 class="project-title">Fly Simply</h3>
+
+          <p class="project-category">
+            Human-Computer Interaction (CSC 310) · In progress
+          </p>
+
+          <p class="project-description">
+            An application that helps users navigate airports. It displays
+            travel times to gates, security checkpoints, and other
+            establishments, as well as wait times at areas such as security
+            checkpoints.
+          </p>
+        </div>
+
+      </article>
+    </li>
+
+  </ul>
+
+</section>
+```
+
+These filenames are suggestions only. Use the projects’ actual image filenames and extensions.
+
+### What must remain unchanged
+
+Keep the surrounding article exactly aligned with the template navigation:
+
+```html
+<article class="portfolio" data-page="portfolio">
+
+  <header>
+    <h2 class="h2 article-title">Portfolio</h2>
+  </header>
+
+  <!-- personalized projects section -->
+
+</article>
+```
+
+In particular, do not rename:
+
+- The `portfolio` class
+- `data-page="portfolio"`
+- The Portfolio navigation button
+- The `.projects` section class
+- The `.project-list` class
+- The `.project-item` class
+
+These classes and data attributes may be used by existing CSS or JavaScript.
+
+### Remove the filtering interface
+
+Since Fern has only two specified projects and no user-provided categories, remove:
+
+```html
+<ul class="filter-list">...</ul>
+```
+
+And:
+
+```html
+<div class="filter-select-box">...</div>
+```
+
+Also remove these attributes from project cards:
+
+```html
+data-filter-item
+data-category="..."
+```
+
+The filter-related JavaScript may assume those elements exist. If removing the filter controls causes errors, use a smaller-change version that retains a single **All** filter:
+
+```html
+<ul class="filter-list">
+  <li class="filter-item">
+    <button class="active" data-filter-btn>All</button>
+  </li>
+</ul>
+
+<div class="filter-select-box">
+  <button class="filter-select" data-select>
+    <div class="select-value" data-selecct-value>All</div>
+    <div class="select-icon">
+      <ion-icon name="chevron-down"></ion-icon>
+    </div>
+  </button>
+
+  <ul class="select-list">
+    <li class="select-item">
+      <button data-select-item>All</button>
+    </li>
+  </ul>
+</div>
+```
+
+Then mark both projects as:
+
+```html
+<li
+  class="project-item active"
+  data-filter-item
+  data-category="all">
+```
+
+However, displaying a filter with only one option is not useful. The better approach is to remove the filter interface and also remove or guard only the filter-related JavaScript. Do not change the page-navigation code.
+
+### Minimal-change version
+
+To preserve as much of the template’s expected structure as possible, keep the project cards as links only if real destinations exist. Since no project URLs were supplied, use non-link cards:
+
+```html
+<li class="project-item active" data-filter-item data-category="all">
+  <article class="project-card">
+
+    <figure class="project-img">
+      <img
+        src="./assets/images/aigentflow.png"
+        alt="Screenshot of the AIGentFlow project interface"
+        loading="lazy">
+    </figure>
+
+    <h3 class="project-title">AIGentFlow</h3>
+
+    <p class="project-category">
+      Technology Capstone (CIT 485) · In progress
+    </p>
+
+    <p class="project-description">
+      A website that allows users to configure agents to simulate a team
+      environment. Users can watch the agents work together and provide tasks
+      through a chat window.
+    </p>
+
+  </article>
+</li>
+```
+
+Do not retain `<a href="#">`; it creates a misleading, nonfunctional link.
+
+### Image guidance
+
+#### File placement
+
+Put approved screenshots in the existing image directory:
+
+```text
+assets/images/aigentflow.png
+assets/images/fly-simply.png
+```
+
+Use lowercase filenames without spaces to reduce GitHub Pages path errors.
+
+#### Alternative text
+
+Alternative text should describe what is visibly shown, not merely repeat the project name. The earlier examples are provisional because the actual images have not been provided.
+
+For example, if AIGentFlow shows a workflow canvas and chat window:
+
+```html
+alt="AIGentFlow interface showing configured agents and a team chat window"
+```
+
+If Fly Simply shows an airport map with routes and wait times:
+
+```html
+alt="Fly Simply airport map showing a route to a gate and security wait times"
+```
+
+If the image is only a decorative project logo and the adjacent heading already names it, use:
+
+```html
+alt=""
+```
+
+Do not use generic alternatives such as `alt="project image"`.
+
+#### Image consistency
+
+For a stable card layout:
+
+- Use screenshots with the same aspect ratio, ideally 16:9.
+- Crop screenshots without removing essential interface information.
+- Avoid images containing private accounts, messages, names, tokens, or location data.
+- Remove sensitive metadata before publishing.
+- Compress the images so the GitHub Pages site loads quickly.
+
+### Suggested CSS additions
+
+The template’s `.project-img` styles can still provide the image treatment. Add only the rules needed for the text card:
+
+```css
+.project-card {
+  height: 100%;
+}
+
+.project-card .project-img {
+  margin-bottom: 15px;
+}
+
+.project-card .project-img img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.project-content {
+  padding-inline: 10px;
+}
+
+.project-description {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-300);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+```
+
+If `.project-item` is hidden by default and displayed only when it has `.active`, retain:
+
+```html
+class="project-item active"
+```
+
+That class affects project visibility, not page navigation.
+
+### If the project cards have real URLs later
+
+Once Fern supplies verified project destinations, make the project title or a clearly labeled link clickable:
+
+```html
+<a
+  class="project-link"
+  href="VERIFIED_PROJECT_URL">
+  View AIGentFlow project
+</a>
+```
+
+For a public code repository:
+
+```html
+<a
+  class="project-link"
+  href="VERIFIED_REPOSITORY_URL">
+  View AIGentFlow source code
+</a>
+```
+
+Do not make the cards clickable until actual URLs are available.
+
+### Key distinction
+
+There are two independent sets of template behavior:
+
+- **Page navigation:** controlled by `data-nav-link` and `data-page="portfolio"`
+- **Portfolio filtering:** controlled by `data-filter-btn`, `data-select`, `data-select-item`, `data-filter-item`, and `data-category`
+
+To preserve navigation, leave the first set untouched. You can simplify the second set independently, but its JavaScript must be removed or guarded if its controls are removed.
